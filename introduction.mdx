@@ -1,0 +1,134 @@
+---
+title: Introduction
+description: Overview of Dariak and its core capabilities
+---
+
+## Getting Started
+
+Dariak is an intuitive user-friendly solution designed to streamline documentation processes. It offers powerful tools for creating, managing, and sharing comprehensive documentation with ease. Whether you're building APIs, writing guides, or maintaining knowledge bases, Dariak simplifies the workflow.
+
+<Columns cols={3}>
+  <Card title="Easy Setup" icon="zap" href="/docs/getting-started/quick-start">
+    Get up and running in minutes with our guided setup process.
+  </Card>
+  <Card title="Powerful API" icon="code" href="/docs/api-reference/overview">
+    Integrate seamlessly with your existing tools and workflows.
+  </Card>
+  <Card title="Rich Features" icon="star" href="/docs/features/overview">
+    Discover advanced capabilities that scale with your needs.
+  </Card>
+</Columns>
+
+## Key Features
+
+Dariak provides a comprehensive platform for documentation management. You can create interactive guides, generate API references automatically, and collaborate with your team in real-time.
+
+<Tabs>
+  <Tab title="For Developers" icon="code">
+    Build robust documentation with our developer-friendly tools. Use our SDK to integrate documentation directly into your CI/CD pipeline.
+    
+    <CodeGroup tabs="JavaScript,Python">
+      ```javascript
+const dariak = require('dariak-sdk');
+
+const doc = await dariak.create({
+  title: 'API Guide',
+  content: '# Welcome to our API'
+});
+console.log('Document created:', doc.id);
+```
+      ```python
+from dariak_sdk import Dariak
+
+dariak = Dariak(api_key='your_key')
+doc = dariak.create_document(
+    title='API Guide',
+    content='# Welcome to our API'
+)
+print(f'Document created: {doc.id}')
+```
+    </CodeGroup>
+  </Tab>
+  <Tab title="For Teams" icon="users">
+    Collaborate effectively with version control, review workflows, and team permissions.
+    
+    <Steps>
+      <Step title="Invite Members" icon="user-plus">
+        Add team members to your workspace.
+      </Step>
+      <Step title="Set Permissions" icon="settings">
+        Configure roles and access levels.
+      </Step>
+      <Step title="Start Collaborating" icon="share-2">
+        Work together on documentation projects.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+<Callout kind="info">
+  Dariak supports Markdown, MDX, and custom components for rich content creation.
+</Callout>
+
+<Expandable title="Frequently Asked Questions" default-open="false">
+  <Expandable title="How do I get started?" default-open="false">
+    Simply sign up for an account and follow our quick start guide to create your first documentation project.
+  </Expandable>
+  <Expandable title="Is there a free tier?" default-open="false">
+    Yes, we offer a generous free tier with all essential features for small teams and personal use.
+  </Expandable>
+</Expandable>
+
+## Use Cases
+
+Dariak is perfect for various scenarios:
+
+- **API Documentation**: Automatically generate comprehensive API docs from OpenAPI specifications
+- **Product Guides**: Create interactive tutorials and user manuals
+- **Knowledge Bases**: Build searchable internal wikis for your organization
+- **Developer Portals**: Host public documentation with custom branding
+
+<ExpandableGroup>
+  <Expandable title="API Documentation Example" default-open="false">
+    Generate detailed API documentation with interactive examples.
+    
+    ```javascript
+const apiDoc = await dariak.generateApiDoc({
+  spec: 'openapi.yaml',
+  theme: 'dark',
+  interactive: true
+});
+```
+  </Expandable>
+  <Expandable title="Product Guide Creation" default-open="false">
+    Build step-by-step guides with embedded media and code samples.
+    
+    ```python
+guide = dariak.create_guide(
+    title='Getting Started',
+    steps=[
+        {'title': 'Install', 'content': 'npm install dariak'},
+        {'title': 'Configure', 'content': 'Set up your API key'}
+    ]
+)
+```
+  </Expandable>
+</ExpandableGroup>
+
+## Next Steps
+
+Ready to get started? Explore our authentication guide to set up secure access, then dive into configuration options to customize Dariak for your needs.
+
+<Update label="2024-10-15" description="v2.0.0" tags={["feature", "improvement"]}>
+## New Features
+
+- Enhanced collaboration tools with real-time editing
+- Improved API documentation generation
+- New customization options for themes
+
+## Improvements
+
+- Faster page load times
+- Better mobile responsiveness
+- Enhanced search functionality
+</Update>

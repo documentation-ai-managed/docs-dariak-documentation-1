@@ -1,0 +1,201 @@
+---
+title: Webhooks
+description: Set up automated notifications and integrations with webhooks
+---
+
+## Webhooks Overview
+
+Webhooks in Dariak allow you to receive real-time notifications about documentation events. This enables you to build automated workflows and integrations with other tools.
+
+<Callout kind="info">
+  Webhooks deliver events as HTTP POST requests to your specified endpoint.
+</Callout>
+
+## Setting Up Webhooks
+
+Configure webhooks in your Dariak dashboard to start receiving events.
+
+<Steps>
+  <Step title="Access Settings" icon="settings">
+    Navigate to your project settings and select the Webhooks tab.
+  </Step>
+  <Step title="Create Webhook" icon="plus">
+    Click "Add Webhook" and provide your endpoint URL.
+  </Step>
+  <Step title="Select Events" icon="check-circle">
+    Choose which events you want to receive notifications for.
+  </Step>
+  <Step title="Configure Security" icon="shield">
+    Set up webhook signatures for security verification.
+  </Step>
+</Steps>
+
+## Available Events
+
+Dariak sends notifications for various documentation-related events.
+
+<Tabs>
+  <Tab title="Document Events" icon="file-text">
+    | Event | Description |
+    |-------|-------------|
+    | `document.created` | New document created |
+    | `document.updated` | Document content changed |
+    | `document.deleted` | Document removed |
+    | `document.published` | Document published |
+  </Tab>
+  <Tab title="Project Events" icon="folder">
+    | Event | Description |
+    |-------|-------------|
+    | `project.created` | New project created |
+    | `project.updated` | Project settings changed |
+    | `project.deleted` | Project removed |
+  </Tab>
+  <Tab title="User Events" icon="users">
+    | Event | Description |
+    |-------|-------------|
+    | `user.invited` | User invited to project |
+    | `user.joined` | User accepted invitation |
+    | `user.removed` | User removed from project |
+  </Tab>
+</Tabs>
+
+## Webhook Payloads
+
+Each webhook delivery contains a JSON payload with event details.
+
+<Expandable title="Document Created Payload" default-open="false">
+  ```json
+{
+  "event": "document.created",
+  "timestamp": "2024-10-15T10:30:00Z",
+  "data": {
+    "id": "doc_123456",
+    "title": "API Reference",
+    "project_id": "proj_789",
+    "author_id": "user_101",
+    "created_at": "2024-10-15T10:30:00Z",
+    "tags": ["api", "reference"],
+    "url": "https://dariak.com/docs/doc_123456"
+  }
+}
+```
+</Expandable>
+
+<Expandable title="Document Updated Payload" default-open="false">
+  ```json
+{
+  "event": "document.updated",
+  "timestamp": "2024-10-15T11:00:00Z",
+  "data": {
+    "id": "doc_123456",
+    "changes": {
+      "content": true,
+      "title": false,
+      "tags": true
+    },
+    "updated_by": "user_101",
+    "version": 3
+  }
+}
+```
+</Expandable>
+
+## Security and Verification
+
+Ensure webhook deliveries are legitimate using signature verification.
+
+<CodeGroup tabs="Node.js,Python">
+  ```javascript
+const crypto = require('crypto');
+
+function verifySignature(payload, signature, secret) {
+  const expectedSignature = crypto
+    .createHmac('sha256', secret)
+    .update(payload, 'utf8')
+    .digest('hex');
+  return `sha256=${expectedSignature}` === signature;
+}
+```
+  ```python
+import hmac
+import hashlib
+
+def verify_signature(payload, signature, secret):
+    expected = hmac.new(
+        secret.encode('utf-8'),
+        payload.encode('utf-8'),
+        hashlib.sha256
+    ).hexdigest()
+    return f'sha256={expected}' == signature
+```
+</CodeGroup>
+
+<Callout kind="danger">
+  Always verify webhook signatures to prevent malicious requests to your endpoints.
+</Callout>
+
+## Handling Webhooks
+
+Implement robust webhook handling in your application.
+
+<ExpandableGroup>
+  <Expandable title="Retry Logic" default-open="false">
+    Implement retry logic for failed webhook deliveries.
+  </Expandable>
+  <Expandable title="Idempotency" default-open="false">
+    Ensure your webhook handler is idempotent to handle duplicate deliveries.
+  </Expandable>
+  <Expandable title="Error Responses" default-open="false">
+    Return appropriate HTTP status codes for webhook processing.
+  </Expandable>
+</ExpandableGroup>
+
+## Testing Webhooks
+
+Test your webhook integrations before going live.
+
+<Steps>
+  <Step title="Use Test Endpoint" icon="play">
+    Set up a test endpoint like webhook.site or ngrok.
+  </Step>
+  <Step title="Trigger Events" icon="zap">
+    Perform actions in Dariak to trigger webhook events.
+  </Step>
+  <Step title="Verify Payloads" icon="check-circle">
+    Check that your endpoint receives and processes events correctly.
+  </Step>
+</Steps>
+
+<Expandable title="Sample Test Script" default-open="false">
+  Use this script to test webhook handling locally.
+  
+  ```javascript
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+
+app.post('/webhook', (req, res) => {
+  console.log('Received webhook:', req.body);
+  // Process webhook
+  res.status(200).send('OK');
+});
+
+app.listen(3000, () => console.log('Webhook test server running'));
+```
+</Expandable>
+
+## Best Practices
+
+Follow these guidelines for reliable webhook integrations.
+
+<Callout kind="tip">
+  Respond to webhook requests within 10 seconds to avoid timeouts.
+</Callout>
+
+- Process webhooks asynchronously to avoid blocking
+- Store webhook data for debugging and auditing
+- Implement proper logging for webhook activities
+- Use webhook signatures for security verification
+- Handle duplicate deliveries gracefully
+- Monitor webhook delivery success rates

@@ -1,0 +1,122 @@
+---
+title: Authentication
+description: Secure access and authentication methods for Dariak
+---
+
+## Authentication Overview
+
+Dariak uses secure authentication methods to protect your documentation and ensure authorized access. We support multiple authentication strategies including API keys, OAuth, and team-based permissions.
+
+<Callout kind="info">
+  Always use HTTPS when making API requests to ensure secure communication.
+</Callout>
+
+## API Key Authentication
+
+The most common authentication method is using API keys. Generate a key in your dashboard and include it in your requests.
+
+<Steps>
+  <Step title="Generate API Key" icon="key">
+    Log into your Dariak dashboard and navigate to Settings > API Keys.
+  </Step>
+  <Step title="Configure Key" icon="settings">
+    Set permissions and expiration for your API key.
+  </Step>
+  <Step title="Use in Requests" icon="send">
+    Include the key in your API request headers.
+  </Step>
+</Steps>
+
+<Tabs>
+  <Tab title="REST API" icon="code">
+    Include your API key in the Authorization header.
+    
+    ```javascript
+const response = await fetch('/api/docs', {
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  }
+});
+```
+  </Tab>
+  <Tab title="SDK" icon="package">
+    The SDK handles authentication automatically.
+    
+    ```python
+from dariak_sdk import Dariak
+
+dariak = Dariak(api_key='your_api_key')
+docs = dariak.list_documents()
+```
+  </Tab>
+</Tabs>
+
+## OAuth Integration
+
+For web applications, use OAuth 2.0 for secure user authentication.
+
+<Expandable title="OAuth Setup Guide" default-open="false">
+  <Steps>
+    <Step title="Register Application" icon="settings">
+      Register your app in the Dariak developer console.
+    </Step>
+    <Step title="Configure Redirect URIs" icon="link">
+      Set up authorized redirect URIs.
+    </Step>
+    <Step title="Implement Flow" icon="code">
+      Implement the OAuth authorization code flow.
+    </Step>
+  </Steps>
+</Expandable>
+
+## Team Permissions
+
+Control access at the team and project level with granular permissions.
+
+| Role | Read | Write | Admin |
+|------|------|-------|-------|
+| Viewer | ✅ | ❌ | ❌ |
+| Editor | ✅ | ✅ | ❌ |
+| Admin | ✅ | ✅ | ✅ |
+
+<ExpandableGroup>
+  <Expandable title="Managing Team Access" default-open="false">
+    Learn how to invite team members and set permissions.
+  </Expandable>
+  <Expandable title="Project-Level Permissions" default-open="false">
+    Configure access for specific documentation projects.
+  </Expandable>
+</ExpandableGroup>
+
+## Security Best Practices
+
+Follow these guidelines to maintain secure access to your Dariak account.
+
+<Callout kind="danger">
+  Never share your API keys publicly or commit them to version control.
+</Callout>
+
+<CodeGroup tabs="Environment Variables,Configuration File">
+  ```bash
+export DARIAK_API_KEY="your_secure_key"
+```
+  ```json
+{
+  "api_key": "${DARIAK_API_KEY}",
+  "base_url": "https://api.dariak.com"
+}
+```
+</CodeGroup>
+
+## Troubleshooting Authentication
+
+Common authentication issues and their solutions.
+
+<Expandable title="Invalid API Key" default-open="false">
+  Check that your API key is correct and hasn't expired. Regenerate if necessary.
+</Expandable>
+
+<Expandable title="Permission Denied" default-open="false">
+  Verify your account has the required permissions for the requested operation.
+</Expandable>

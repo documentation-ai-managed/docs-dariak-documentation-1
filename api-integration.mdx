@@ -1,0 +1,181 @@
+---
+title: API Integration
+description: Integrate Dariak with your applications and workflows
+---
+
+## API Integration Overview
+
+Dariak provides a comprehensive REST API that allows you to integrate documentation functionality directly into your applications. Automate documentation creation, updates, and management.
+
+<Callout kind="info">
+  All API endpoints require authentication. See our authentication guide for details.
+</Callout>
+
+## Getting Started with the API
+
+Begin by setting up your API client and making your first request.
+
+<Steps>
+  <Step title="Install SDK" icon="download">
+    Choose and install the appropriate SDK for your language.
+  </Step>
+  <Step title="Initialize Client" icon="settings">
+    Configure your client with API credentials.
+  </Step>
+  <Step title="Make First Request" icon="send">
+    Test the connection with a simple API call.
+  </Step>
+</Steps>
+
+<Tabs>
+  <Tab title="JavaScript" icon="code">
+    ```javascript
+const Dariak = require('dariak-sdk');
+
+const client = new Dariak({
+  apiKey: 'your_api_key',
+  baseUrl: 'https://api.dariak.com'
+});
+
+// Test connection
+client.ping().then(() => console.log('Connected!'));
+```
+  </Tab>
+  <Tab title="Python" icon="code">
+    ```python
+from dariak_sdk import Dariak
+
+client = Dariak(
+    api_key='your_api_key',
+    base_url='https://api.dariak.com'
+)
+
+# Test connection
+client.ping()
+print('Connected!')
+```
+  </Tab>
+  <Tab title="cURL" icon="terminal">
+    ```bash
+curl -X GET \
+  'https://api.dariak.com/ping' \
+  -H 'Authorization: Bearer your_api_key'
+```
+  </Tab>
+</Tabs>
+
+## Core API Operations
+
+The main operations you'll use when working with Dariak.
+
+<Columns cols={2}>
+  <Card title="Document Management" icon="file-text" href="#documents">
+    Create, read, update, and delete documents.
+  </Card>
+  <Card title="Project Organization" icon="folder" href="#projects">
+    Manage documentation projects and folders.
+  </Card>
+</Columns>
+
+### Document Operations
+
+Work with individual documents in your documentation projects.
+
+<Expandable title="Creating Documents" default-open="false">
+  Create new documents with custom content and metadata.
+  
+  ```javascript
+const doc = await client.documents.create({
+  title: 'API Reference',
+  content: '# Welcome\nThis is our API documentation.',
+  projectId: 'project_123',
+  tags: ['api', 'reference']
+});
+```
+</Expandable>
+
+<Expandable title="Updating Documents" default-open="false">
+  Modify existing documents with new content or metadata.
+  
+  ```python
+doc = client.documents.update(
+    doc_id='doc_456',
+    content='# Updated Content\nNew information here.',
+    tags=['api', 'reference', 'updated']
+)
+```
+</Expandable>
+
+### Project Management
+
+Organize your documentation into structured projects.
+
+<ExpandableGroup>
+  <Expandable title="Creating Projects" default-open="false">
+    Set up new documentation projects.
+  </Expandable>
+  <Expandable title="Managing Permissions" default-open="false">
+    Control who can access and edit your projects.
+  </Expandable>
+</ExpandableGroup>
+
+## Webhooks and Events
+
+Receive real-time notifications about documentation changes.
+
+<Callout kind="tip">
+  Webhooks allow you to automate workflows based on documentation events.
+</Callout>
+
+<CodeGroup tabs="Setup,Example Payload">
+  ```json
+{
+  "url": "https://your-app.com/webhook",
+  "events": ["document.created", "document.updated"],
+  "secret": "your_webhook_secret"
+}
+```
+  ```json
+{
+  "event": "document.updated",
+  "data": {
+    "id": "doc_123",
+    "title": "API Reference",
+    "project": "project_456",
+    "timestamp": "2024-10-15T10:30:00Z"
+  }
+}
+```
+</CodeGroup>
+
+## Error Handling
+
+Properly handle API errors and rate limits.
+
+<Expandable title="Common Error Codes" default-open="false">
+  | Code | Description |
+  |------|-------------|
+  | 400 | Bad Request |
+  | 401 | Unauthorized |
+  | 403 | Forbidden |
+  | 404 | Not Found |
+  | 429 | Rate Limited |
+  | 500 | Server Error |
+</Expandable>
+
+<Expandable title="Rate Limiting" default-open="false">
+  Handle rate limits gracefully in your applications.
+  
+  ```javascript
+try {
+  const result = await client.documents.list();
+} catch (error) {
+  if (error.status === 429) {
+    // Wait and retry
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    return client.documents.list();
+  }
+  throw error;
+}
+```
+</Expandable>

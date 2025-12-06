@@ -1,0 +1,148 @@
+---
+title: Configuration
+description: Customize and configure your Dariak documentation setup
+---
+
+## Configuration Basics
+
+Dariak offers extensive configuration options to customize your documentation experience. From themes to integrations, you can tailor the platform to your specific needs.
+
+<Columns cols={2}>
+  <Card title="Theme Customization" icon="palette" href="#themes">
+    Customize the look and feel of your documentation.
+  </Card>
+  <Card title="Integration Setup" icon="plug" href="#integrations">
+    Connect with external tools and services.
+  </Card>
+</Columns>
+
+## Theme Configuration
+
+Customize the appearance of your documentation with built-in themes and custom styling.
+
+<Tabs>
+  <Tab title="Light Theme" icon="sun">
+    Clean and bright theme for daytime use.
+    
+    ```json
+{
+  "theme": "light",
+  "colors": {
+    "primary": "#3B82F6",
+    "background": "#ffffff"
+  }
+}
+```
+  </Tab>
+  <Tab title="Dark Theme" icon="moon">
+    Easy on the eyes for extended reading.
+    
+    ```json
+{
+  "theme": "dark",
+  "colors": {
+    "primary": "#60A5FA",
+    "background": "#1f2937"
+  }
+}
+```
+  </Tab>
+</Tabs>
+
+<Callout kind="tip">
+  Use custom CSS variables to override default theme colors for complete branding control.
+</Callout>
+
+## Integration Settings
+
+Connect Dariak with your favorite tools and services.
+
+<Steps>
+  <Step title="Choose Integration" icon="settings">
+    Select from supported integrations like Slack, GitHub, and Jira.
+  </Step>
+  <Step title="Configure Webhooks" icon="webhook">
+    Set up webhook URLs for real-time notifications.
+  </Step>
+  <Step title="Test Connection" icon="check-circle">
+    Verify the integration is working correctly.
+  </Step>
+</Steps>
+
+<ExpandableGroup>
+  <Expandable title="GitHub Integration" default-open="false">
+    Sync documentation with GitHub repositories for version control.
+    
+    ```javascript
+const githubIntegration = {
+  repo: 'your-org/docs',
+  branch: 'main',
+  token: process.env.GITHUB_TOKEN
+};
+```
+  </Expandable>
+  <Expandable title="Slack Notifications" default-open="false">
+    Get notified about documentation updates in Slack channels.
+  </Expandable>
+</ExpandableGroup>
+
+## Advanced Configuration
+
+Fine-tune your setup with advanced options.
+
+<Expandable title="Performance Settings" default-open="false">
+  Optimize loading times and resource usage.
+  
+  ```json
+{
+  "performance": {
+    "cache": true,
+    "compression": "gzip",
+    "cdn": "https://cdn.dariak.com"
+  }
+}
+```
+</Expandable>
+
+<Expandable title="Security Options" default-open="false">
+  Configure security settings for your documentation.
+  
+  ```json
+{
+  "security": {
+    "cors": ["https://yourdomain.com"],
+    "rateLimit": 1000,
+    "encryption": "AES256"
+  }
+}
+```
+</Expandable>
+
+## Environment Variables
+
+Use environment variables for sensitive configuration.
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `DARIAK_API_KEY` | Your API key | Yes |
+| `DARIAK_BASE_URL` | API base URL | No |
+| `DARIAK_THEME` | Default theme | No |
+
+<CodeGroup tabs="Linux,macOS,Windows">
+  ```bash
+export DARIAK_API_KEY="your_key_here"
+export DARIAK_BASE_URL="https://api.dariak.com"
+```
+  ```bash
+export DARIAK_API_KEY="your_key_here"
+export DARIAK_BASE_URL="https://api.dariak.com"
+```
+  ```cmd
+set DARIAK_API_KEY=your_key_here
+set DARIAK_BASE_URL=https://api.dariak.com
+```
+</CodeGroup>
+
+<Callout kind="info">
+  Environment variables take precedence over configuration file settings.
+</Callout>
